@@ -40,7 +40,7 @@ const ProgressBar = (props) => {
       </div>
       <Progress
         progress={percentage > 100 ? 0 : percentage}
-        size="md"
+        size="sm"
         color="red"
         class="my-1"
       />

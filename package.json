@@ -15,7 +15,6 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
-    "ez-timer": "^1.1.1",
     "flowbite": "^1.6.3",
     "flowbite-react": "^0.3.8",
     "gatsby": "^5.5.0",

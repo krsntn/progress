@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useReducer } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { Helmet } from 'react-helmet';
 import {
   calcYear,
@@ -10,45 +10,42 @@ import {
   calcActualDate,
 } from '../utils/calc';
 import ProgressBar from '../components/ProgressBar';
-import { Timer } from 'ez-timer';
-
-const defaultValue = { percentage: 0, days: 0 };
 
 const initialState = {
   work: {
     emoji: '💻',
     title: 'Work',
-    data: defaultValue,
+    data: calcTimeFromTo(9, new Date(), 18),
   },
   hour: {
     emoji: '🕐',
     title: 'Hour',
-    data: defaultValue,
+    data: calcHour(new Date()),
   },
   today: {
     emoji: '🌎',
     title: 'Today',
-    data: defaultValue,
+    data: calcToday(new Date()),
   },
   week: {
     emoji: '🚌',
     title: 'Week',
-    data: defaultValue,
+    data: calcWeek(new Date()),
   },
   month: {
     emoji: '📅',
     title: 'Month',
-    data: defaultValue,
+    data: calcMonth(new Date()),
   },
   year: {
     emoji: '🎆',
     title: 'Year',
-    data: defaultValue,
+    data: calcYear(new Date()),
   },
   cake: {
     emoji: '🎂',
     title: 'My Cake Day',
-    data: defaultValue,
+    data: calcActualDate(new Date(), 16, 6),
   },
 };
 
@@ -75,32 +72,28 @@ const Work = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [dots, setDots] = useState('');
 
-  const updateProgress = useCallback((now) => {
-    setDots('.'.repeat(now.getSeconds() % 4));
-
-    dispatch({
-      type: 'update',
-      payload: {
-        work: calcTimeFromTo(9, now, 18),
-        hour: calcHour(now),
-        today: calcToday(now),
-        week: calcWeek(now),
-        month: calcMonth(now),
-        year: calcYear(now),
-        cake: calcActualDate(now, 16, 6),
-      },
-    });
-  }, []);
-
   useEffect(() => {
-    const timer = new Timer(() => {
-      const time = new Date();
-      updateProgress(time);
-    }, 1000);
-    timer.start();
+    const interval = setInterval(() => {
+      const now = new Date();
+      setDots('.'.repeat(now.getSeconds() % 4));
+      dispatch({
+        type: 'update',
+        payload: {
+          work: calcTimeFromTo(9, now, 18),
+          hour: calcHour(now),
+          today: calcToday(now),
+          week: calcWeek(now),
+          month: calcMonth(now),
+          year: calcYear(now),
+          cake: calcActualDate(now, 16, 6),
+        },
+      });
+    }, [1000]);
 
-    return () => timer.stop();
-  }, [updateProgress]);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <div class="pt-6 min-h-screen w-full bg-gradient-to-r from-green-400 to-blue-500 ">
@@ -108,18 +101,16 @@ const Work = () => {
         <title>Time Progress{dots}</title>
         <meta name="description" content="Nested component" />
       </Helmet>
-      <div class="mx-auto bg-slate-50 max-w-lg py-6 px-10 rounded-lg">
+      <div class="mx-auto bg-slate-50 max-w-sm py-6 px-10 rounded">
         <div>
-          <div class="flex justify-between items-center mb-12">
+          <div class="flex justify-between items-center flex-wrap mb-12">
             <div class="text-xl font-semibold">
               <span role="img" aria-labelledby="emoji">
                 📈
               </span>{' '}
               Progress
             </div>
-            <div class="text-md font-semibold">
-              {new Date().toLocaleString()}
-            </div>
+            <div class="text-sm">{new Date().toLocaleString()}</div>
           </div>
 
           {Object.keys(state).map((key) => {
