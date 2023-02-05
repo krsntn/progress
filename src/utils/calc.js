@@ -70,12 +70,8 @@ export const calcToday = (now) => {
 
   const passedDay = Math.abs(now - start);
   const totalDay = Math.abs(end - start);
-  const remain = Math.floor((end - now) / (1000 * 60 * 60) + 1);
 
-  return {
-    percentage: Math.floor((passedDay / totalDay) * 100),
-    days: `${remain} Hour${remain > 1 ? 's' : ''}`,
-  };
+  return Math.floor((passedDay / totalDay) * 100);
 };
 
 export const calcHour = (now) => {
@@ -86,12 +82,8 @@ export const calcHour = (now) => {
 
   const passed = Math.abs(now - start);
   const total = Math.abs(end - start);
-  const remain = Math.floor(Math.abs(end - now) / (1000 * 60) + 1);
 
-  return {
-    percentage: Math.floor((passed / total) * 100),
-    days: `${remain} Minute${remain > 1 ? 's' : ''}`,
-  };
+  return Math.floor((passed / total) * 100);
 };
 
 export const calcLastSpecificDayOfMonth = (now, month, day) => {
@@ -178,12 +170,8 @@ function calcDayDiff(start, cur, end) {
 
   const diffTime = Math.abs(cur - start);
   const totalDiffInMilliseconds = Math.abs(end - start);
-  const daysLeft = Math.floor((end - cur) / (1000 * 60 * 60 * 24) + 1);
 
-  return {
-    percentage: Math.floor((diffTime / totalDiffInMilliseconds) * 100),
-    days: daysLeft,
-  };
+  return Math.floor((diffTime / totalDiffInMilliseconds) * 100);
 }
 
 export function calcFromTo(start, now, end) {
@@ -197,12 +185,8 @@ export function calcFromTo(start, now, end) {
 function calcTimeDiff(start, cur, end) {
   const diffTime = Math.abs(cur - start);
   const totalDiffInMilliseconds = Math.abs(end - start);
-  const secondsLeft = Math.floor((end - cur) / (1000 * 60) + 1);
 
-  return {
-    percentage: Math.floor((diffTime / totalDiffInMilliseconds) * 100),
-    days: secondsLeft,
-  };
+  return Math.floor((diffTime / totalDiffInMilliseconds) * 100);
 }
 
 export function calcTimeFromTo(start, now, end) {
