@@ -37,7 +37,7 @@ export const calcMonth = (now) => {
   const lastDate = new Date(
     new Date().getFullYear(),
     new Date().getMonth() + 1,
-    1
+    1,
   );
 
   return calcDayDiff(firstDate, now, lastDate);
@@ -49,7 +49,7 @@ export const calcWeek = (now) => {
   const totalDays = new Date(
     firstDate.getFullYear(),
     firstDate.getMonth(),
-    0
+    0,
   ).getDate();
 
   if (addDays > totalDays) {
@@ -114,19 +114,19 @@ export const calcMonthWeekDay = (now, month, weekNo, day) => {
     new Date().getFullYear() - 1,
     month,
     weekNo,
-    day
+    day,
   );
   const thisYearDate = getActualDate(
     new Date().getFullYear(),
     month,
     weekNo,
-    day
+    day,
   );
   const nextYearDate = getActualDate(
     new Date().getFullYear() + 1,
     month,
     weekNo,
-    day
+    day,
   );
 
   function getActualDate(year, month, weekNo, day) {
@@ -134,8 +134,8 @@ export const calcMonthWeekDay = (now, month, weekNo, day) => {
     const diff = Math.abs(day - firstDateOfMonth.getDay());
     return new Date(
       firstDateOfMonth.setDate(
-        firstDateOfMonth.getDate() + diff + (weekNo - 1) * 7
-      )
+        firstDateOfMonth.getDate() + diff + (weekNo - 1) * 7,
+      ),
     );
   }
 
@@ -183,8 +183,11 @@ export function calcFromTo(start, now, end) {
 }
 
 function calcTimeDiff(start, cur, end) {
-  const diffTime = Math.abs(cur - start);
-  const totalDiffInMilliseconds = Math.abs(end - start);
+  let diffTime = cur - start;
+
+  if (diffTime < 0) return 0;
+
+  const totalDiffInMilliseconds = end - start;
 
   return Math.floor((diffTime / totalDiffInMilliseconds) * 100);
 }
