@@ -13,7 +13,7 @@ const ProgressBar = (props) => {
           </span>{' '}
           {title}
         </div>
-        <div>{percentage}</div>
+        <div>{percentage}%</div>
       </div>
       <Progress
         progress={percentage > 100 ? 0 : percentage}
